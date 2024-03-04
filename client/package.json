@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "pkg.json": "^2.0.8",
     "vue": "^3.4.19"
   },
   "devDependencies": {

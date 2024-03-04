@@ -1,7 +1,8 @@
-FROM node:20
-WORKDIR /usr/src/app
+FROM node:14
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+RUN npm run build
+EXPOSE 5173
+CMD ["npx", "serve", "-s", "dist", "-l", "5173"]
