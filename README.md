@@ -3,11 +3,12 @@ Raspberry Pi 3 SmartHome
 
 # Table des Matières
 1. [Installation](#1-installation)
-2. [Configuration](#2-configuration)
+2. [Local Configuration](#2-local-configuration)
+3. [Licence](#licence)
 
 # 1. Installation
-<div style="display: flex; align-items: baseline; gap: 10px">
-  <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/3/3b/Raspberry_Pi_logo.svg/711px-Raspberry_Pi_logo.svg.png" alt="Raspberry Logo" width="20"/>
+<div class="flex-content">
+  <img src="./README/raspberry.png" alt="Raspberry Logo"/>
   <h2 id="raspberry-pi-3">Raspberry Pi 3</h2>
 </div>
 
@@ -56,6 +57,8 @@ If not, please download OS on SD card with Raspberry Pi Imager on https://www.ra
   ```text
   sudo usermod -aG docker <username>
   ```
+  Replace `<username>` by your own username.
+
 
 * Reboot Your Raspberry Pi:
   ```text
@@ -148,21 +151,74 @@ If not, please download OS on SD card with Raspberry Pi Imager on https://www.ra
   ```text
   sudo mount -a
   ```
+  And check filesystem mount:
+  ```text
+  df -h
+  ```
   Now, your USB drive should now be available in the /mnt/usb folder and Raspberry Pi OS will mount it automatically at each boot.
   See more details on https://raspberrytips.com/mount-usb-drive-raspberry-pi/
 </details>
 
-<div style="display: flex; align-items: baseline; gap: 10px">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Vitejs-logo.svg" alt="Vite Logo" width="20"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/768px-Vue.js_Logo_2.svg.png" alt="Vue Logo" width="20"/>
+<div class="flex-content">
+  <img src="./README/docker.png" alt="Docker Logo"/>
+  <h2 id="docker">Docker</h2>
+</div>
+
+Before continuing, make sure you have enabled and configured Docker Remote API on Raspberry Pi (see [3. Enable Docker Remote API](#enable-docker-remote-api)).
+
+* **Docker Compose on Raspberry**:
+
+Run this command in the root of the project that contains the [compose.yml](compose.yaml). Make sure to replace `<raspberry_pi_ip>` by your Raspberry Pi IP.
+```text
+docker-compose -H tcp://<raspberry_pi_ip>:2375 up -d
+```
+
+* **Show Raspberry Docker Containers**:
+
+```text
+docker -H tcp://<raspberry_pi_ip>:2375 ps
+```
+
+If there were no errors, you should see Docker containers enabled in the Raspberry and therefore be able to access the client in the same network at: `http://<raspberry_pi_ip>:8080`
+
+# 2. Local Configuration
+#### ⚠ This part is only useful for testing the project locally.
+
+<div class="flex-content">
+  <img src="./README/vite.png" alt="Vite Logo"/>
+  <img src="./README/vue.png" alt="Vue Logo"/>
   <h2 id="vite-vue">Vite + Vue</h2>
 </div>
 
-# 2. Configuration
+1. Install dependencies
+```bash
+npm install --prefix ./client pkg.json
+```
+2. Build Vite client
+```bash
+npm run --prefix ./client build
+```
+3. Preview Vite client
+```bash
+npm run --prefix ./client preview
+```
+
+# Licence
+
+This project is under MIT licence - see [LICENSE](LICENSE) file for more details.
+
 
 <style>
 summary{
     font-size: 15px;
     font-weight: bold;
+}
+img{
+    width: 20px;
+}
+.flex-content{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
 }
 </style>
