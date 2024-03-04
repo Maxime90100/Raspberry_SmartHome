@@ -7,10 +7,8 @@ Raspberry Pi 3 SmartHome
 3. [Licence](#licence)
 
 # 1. Installation
-<div class="flex-content">
-  <img src="./README/raspberry.png" alt="Raspberry Logo"/>
-  <h2 id="raspberry-pi-3">Raspberry Pi 3</h2>
-</div>
+
+## ![Raspberry logo](./README/raspberry.png "Raspberry") RaspBerry Pi 3
 
 This section assume that your Raspberry Pi 3 is available with Rasbian OS and have SSH connexion.
 If not, please download OS on SD card with Raspberry Pi Imager on https://www.raspberrypi.com/software/ and then configure your WiFi and SSH connexion.
@@ -159,10 +157,7 @@ If not, please download OS on SD card with Raspberry Pi Imager on https://www.ra
   See more details on https://raspberrytips.com/mount-usb-drive-raspberry-pi/
 </details>
 
-<div class="flex-content">
-  <img src="./README/docker.png" alt="Docker Logo"/>
-  <h2 id="docker">Docker</h2>
-</div>
+## ![Docker logo](./README/docker.png "Docker") Docker
 
 Before continuing, make sure you have enabled and configured Docker Remote API on Raspberry Pi (see [3. Enable Docker Remote API](#enable-docker-remote-api)).
 
@@ -184,11 +179,7 @@ If there were no errors, you should see Docker containers enabled in the Raspber
 # 2. Local Configuration
 #### ⚠ This part is only useful for testing the project locally.
 
-<div class="flex-content">
-  <img src="./README/vite.png" alt="Vite Logo"/>
-  <img src="./README/vue.png" alt="Vue Logo"/>
-  <h2 id="vite-vue">Vite + Vue</h2>
-</div>
+## ![Vite logo](./README/vite.png "Vite") Vite + ![Vue logo](./README/vue.png "Vue") Vue
 
 1. Install dependencies
 ```bash
@@ -206,19 +197,3 @@ npm run --prefix ./client preview
 # Licence
 
 This project is under MIT licence - see [LICENSE](LICENSE) file for more details.
-
-
-<style>
-summary{
-    font-size: 15px;
-    font-weight: bold;
-}
-img{
-    width: 20px;
-}
-.flex-content{
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-}
-</style>
