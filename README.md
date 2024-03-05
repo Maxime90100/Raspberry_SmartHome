@@ -10,13 +10,39 @@ Raspberry Pi 3 SmartHome
 
 ## ![Raspberry logo](./README/raspberry.png "Raspberry") RaspBerry Pi 3
 
-This section assume that your Raspberry Pi 3 is available with Rasbian OS and have SSH connexion.
-If not, please download OS on SD card with Raspberry Pi Imager on https://www.raspberrypi.com/software/ and then configure your WiFi and SSH connexion.
-
 <details>
-  <summary id="connect-to-raspberry">1. Connect to Raspberry</summary>
+  <summary id="connect-to-raspberry">0. Install Raspberry</summary>
 
-* Use SSH connection (with Putty for Windows)
+* Refer to https://www.raspberrypi.com/documentation/computers/getting-started.html
+</details>
+<details>
+  <summary id="connect-to-raspberry-with-ssh">1. Connect to Raspberry with SSH</summary>
+
+* Check if SSH is installed:
+  ```text
+  sudo systemctl status ssh
+  ```
+  If not, install it:
+  ```text
+  sudo apt update
+  sudo apt install openssh-server
+  ```
+* Enable SSH
+  ```text
+  sudo systemctl enable ssh
+  sudo systemctl start ssh
+  ```
+  And get your Raspberry IP:
+  ```text
+  hostname -I
+  ```
+* Connect via SSH from your computer:
+
+  Make sure to replace `<raspberry_pi_ip>` by your own Raspberry IP.
+  ```
+  ssh pi@<raspberry_pi_ip>
+  ```
+  You can also connect with Putty for Windows or OpenSSH for Linux.
 </details>
 <details>
   <summary id="install-docker">2. Install Docker</summary>
@@ -119,7 +145,7 @@ If not, please download OS on SD card with Raspberry Pi Imager on https://www.ra
   ```text
   sudo fdisk -l
   ```
-  ⚠ Remember the device path (something like `/dev/sda1`) and the file system format type (something like `FAT32`).
+  ⚠ Remember the device path (something like `/dev/sda1`) and the file system format type (something like `NTFS`).
 
 
 * Find Device UUID (last value before arrow):
@@ -142,7 +168,7 @@ If not, please download OS on SD card with Raspberry Pi Imager on https://www.ra
   ```text
   UUID=<device_uuid> /mnt/usb <file_system> uid=<user>,gid=<user> 0 0
   ```
-  ⚠ Replace `<device_uuid>` by your usb device uuid, `<file_sytem>` by your file system (vfat for FAT32) and `<user>` by the user (default pi).
+  ⚠ Replace `<device_uuid>` by your usb device uuid, `<file_sytem>` by your file system (ntfs-3g for NTFS) and `<user>` by the user (default pi).
 
 
 * Mount Storage:
