@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   client:
     container_name: client
     build:
@@ -8,3 +17,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:5173"
+
+volumes:
+  postgres_data:
