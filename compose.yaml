@@ -5,8 +5,10 @@ services:
   postgres:
     container_name: postgres
     image: postgres:latest
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
