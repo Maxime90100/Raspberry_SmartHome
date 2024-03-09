@@ -1,6 +1,6 @@
 const {Sequelize} = require('sequelize');
 
-const sequelizeErrorMiddleware = (err, req, res, next) => {
+const checkSequelizeErrors = (err, req, res, next) => {
     if (err instanceof Sequelize.UniqueConstraintError) {
         return res.status(409).send({
             message: 'Unique Constraint Conflict',
@@ -15,4 +15,6 @@ const sequelizeErrorMiddleware = (err, req, res, next) => {
     next({ message: 'Internal Server Error', error: err});
 };
 
-module.exports = {sequelizeErrorMiddleware}
+module.exports = {
+    checkSequelizeErrors
+}

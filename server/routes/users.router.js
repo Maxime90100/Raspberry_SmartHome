@@ -1,8 +1,16 @@
 const express = require('express');
-const User = require('../models/user');
-const {sequelizeErrorMiddleware} = require("../middlewares/sequelize.middleware");
-
+const User = require('../sequelize/models/user');
 const usersRouter = express.Router();
+
+const getUser = async (req,res,next) => {
+    const username = req.params.username;
+    const user = await User.findByPk(username);
+    if (!user) {
+        return res.status(404).send({ message: 'User not found', error: `User "${username}" not found.` });
+    }
+    req.user = user;
+    next();
+}
 
 usersRouter.get('/', async (req, res, next) => {
     try {
@@ -22,47 +30,30 @@ usersRouter.post('/', async (req, res, next) => {
     }
 });
 
-usersRouter.get('/:username', async (req, res, next) => {
+usersRouter.get('/:username', getUser, async (req, res, next) => {
     try {
-        const username = req.params.username;
-        const user = await User.findByPk(username);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found', error: `User "${username}" not found.` });
-        }
-        res.send(user);
+        res.send(req.user);
     } catch (error) {
         next(error);
     }
 });
 
-usersRouter.put('/:username', async (req, res, next) => {
+usersRouter.put('/:username', getUser, async (req, res, next) => {
     try {
-        const username = req.params.username;
-        const user = await User.findByPk(username);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found', error: `User "${username}" not found.` });
-        }
-        await user.update(req.body);
-        res.send({ message: `User "${username}" updated successfully.`, user:user});
+        await req.user.update(req.body);
+        res.send({ message: `User "${req.user.username}" updated successfully.`, user:req.user});
     } catch (error) {
         next(error);
     }
 });
 
-usersRouter.delete('/:username', async (req, res, next) => {
+usersRouter.delete('/:username', getUser, async (req, res, next) => {
     try {
-        const username = req.params.username;
-        const user = await User.findByPk(username);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found', error: `User "${username}" not found.` });
-        }
-        await user.destroy();
-        res.send({ message: `User "${username}" deleted successfully.` });
+        await req.user.destroy();
+        res.send({ message: `User "${req.user.username}" deleted successfully.` });
     } catch (error) {
         next(error);
     }
 });
-
-usersRouter.use(sequelizeErrorMiddleware);
 
 module.exports = usersRouter;
