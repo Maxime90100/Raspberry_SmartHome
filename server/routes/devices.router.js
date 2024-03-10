@@ -3,10 +3,10 @@ const Device = require('../sequelize/models/device');
 const devicesRouter = express.Router();
 
 const getDevice = async (req,res,next) => {
-    const name = req.params.name;
-    const device = await Device.findByPk(name);
+    const id = req.params.id;
+    const device = await Device.findByPk(id);
     if (!device) {
-        return res.status(404).send({ message: 'Device not found', error: `Device "${name}" not found.` });
+        return res.status(404).send({ message: 'Device not found', error: `Device with id=${id} not found.` });
     }
     req.device = device;
     next();
@@ -30,7 +30,7 @@ devicesRouter.post('/', async (req, res, next) => {
     }
 });
 
-devicesRouter.get('/:name', getDevice, async (req, res, next) => {
+devicesRouter.get('/:id', getDevice, async (req, res, next) => {
     try {
         res.send(req.device);
     } catch (error) {
@@ -38,7 +38,21 @@ devicesRouter.get('/:name', getDevice, async (req, res, next) => {
     }
 });
 
-devicesRouter.put('/:name', getDevice, async (req, res, next) => {
+devicesRouter.get('/:id/data', getDevice, async (req, res, next) => {
+    try {
+        req.device.fetchData()
+            .then(response => {
+                res.send(response.data);
+            })
+            .catch(error => {
+                next(error)
+            })
+    } catch (error) {
+        next(error);
+    }
+});
+
+devicesRouter.put('/:id', getDevice, async (req, res, next) => {
     try {
         await req.device.update(req.body);
         res.send({ message: `Device "${req.device.name}" updated successfully.`, device:req.device});
@@ -47,7 +61,7 @@ devicesRouter.put('/:name', getDevice, async (req, res, next) => {
     }
 });
 
-devicesRouter.delete('/:name', getDevice, async (req, res, next) => {
+devicesRouter.delete('/:id', getDevice, async (req, res, next) => {
     try {
         await req.device.destroy();
         res.send({ message: `Device "${req.device.name}" deleted successfully.` });

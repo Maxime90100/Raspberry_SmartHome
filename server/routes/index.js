@@ -2,10 +2,10 @@ const express = require('express')
 const router = express.Router();
 const usersRouter = require('./users.router')
 const devicesRouter = require('./devices.router')
-const {checkSequelizeErrors} = require("../middlewares/sequelize.middleware");
+const {checkErrors} = require("../middlewares/errors.middleware");
 
 router.use('/users',usersRouter);
 router.use('/devices',devicesRouter);
 
-router.use(checkSequelizeErrors)
+router.use(checkErrors)
 module.exports = router;
